@@ -97,6 +97,20 @@ message_box.config(state=tk.DISABLED)
 message_box.pack(side=tk.TOP)
 
 
+# this funtion will keep listening for messages from the server
+def listen_for_messages_from_server(client):
+
+    while 1:
+
+        message = client.recv(2048).decode('utf-8')
+        if message != '':
+            username = message.split("~")[0]
+            content = message.split('~')[1]
+
+            add_message(f"[{username}] {content}")
+
+        else:
+            messagebox.showerror("Error", "Message recevied from client is empty")
 
 # main function
 def main():
